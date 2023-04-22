@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Poem App</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.27.0/themes/prism-okaidia.min.css" integrity="sha512-mIs9kKbaw6JZFfSuo+MovjU+Ntggfoj8RwAmJbVXQ5mkAX5LlgETQEweFPI18humSPHymTb5iikEOKWF7I8ncQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    :root {
+      --primary-color: hsl(270, 54%, 15%);
+      --text: #eee;
+      --button-bg: rebeccapurple;
+      --button-border: hsl(270, 54%, 50%);
+    }
+
+    body {
+      max-width: 800px;
+      margin: auto;
+      background-color: var(--primary-color);
+      color: var(--text);
+      font-size: 1.2rem;
+      line-height: 1.5;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    h1,
+    h2,
+    h3 {
+      text-align: center;
+      margin: 48px 0;
+      letter-spacing: 1.5px;
+    }
+
+    p {
+      margin: 48px 0;
+    }
+
+    button {
+      padding: 10px 24px;
+      background-color: rebeccapurple;
+      border: solid 2px var(--button-border);
+      border-radius: 4px;
+      color: var(--text);
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 200ms;
+      margin: auto;
+      display: block;
+    }
+
+    button:hover {
+      background-color: var(--button-border);
+    }
+
+    span.mono {
+      font-family: 'Courier New', Courier, monospace;
+    }
+
+    a {
+      color: hsl(15, 72%, 75%);
+    }
+
+    a:visited {
+      color: hsl(15, 72%, 70%);
+    }
+
+    ul>li,
+    ol>li {
+      line-height: 2;
+    }
+    #poem, .app-example > div {
+      background-image: url('scroll.png');
+      background-position: top;
+      background-size: cover;
+      margin-bottom: 24px;
+      /* min-height: 1000px; */
+    }
+    #poem p,
+    .app-example > div p {
+      font-family: 'Garamond', 'Times New Roman', Times, serif;
+      font-weight: bold;
+      font-size: 1.3rem;
+      color: black;
+      max-width: 600px;
+      margin: 48px 0 0 15%;
+    }
+    #poem p:last-of-type,
+    .app-example > div p:last-of-type {
+      padding-bottom: 108px;
+    }
+    #poem h2,
+    #poem h3,
+    .app-example > div h2,
+    .app-example > div h3 {
+      font-size: 1.5rem;
+      color: black;
+      font-weight: bold;
+      font-family: 'Garamond', 'Times New Roman', Times, serif;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    #poem h2,
+    .app-example > div h2 {
+      padding-top: 144px;
+      font-size: 2rem;
+      margin-bottom: 12px;
+    }
+    #poem h3,
+    .app-example > div h3 {
+      margin-top: 0;
+    }
+    .app-example {
+      border: 2px solid #eee;
+      position: relative;
+      border-radius: 0 6px 6px 6px;
+      padding: 24px 0;
+      margin: 96px 0;
+    }
+
+    .app-example>.tag {
+      position: absolute;
+      left: -2px;
+      top: -30px;
+      color: hsl(270, 54%, 15%);
+      background-color: #eee;
+      padding: 0 24px;
+      border-top-left-radius: 6px;
+      border-top-right-radius: 6px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Functional Poetry App</h1>
+
+  <div id="poem"></div>
+  <button id="get-poem">Get Poem</button>
+
+  <h2>Instructions</h2>
+  <p>For this assignment, you will complete a poem-fetching app that uses the <a href="https://github.com/thundercomb/poetrydb#readme">PoetryDB API</a>.</p>
+  <p>The goal of this assignment is to help familiarize you with functional techniques and features of JavaScript. To complete the application so that it behaves as described in the <a href="#app-behavior">Application Behavior</a> section, you will need to finish the <span class="mono">makePoemHTML</span> function as detailed in <a href="#setup">Setup</a>. This function will accept the poem JSON as an argument and then return a valid HTML string of the poem.</p>
+
+  <h3 id="setup">Setup</h3>
+  <p id="starting-markup">The markup for the poetry app is as follows:</p>
+  <pre><code class="language-markup">&lt;div id="poem">&lt;/div>
+&lt;button id="get-poem">Get Poem&lt;/button></code></pre>
+  <p><u>Do NOT modify this <span class="mono">index.html</span> file.</u> The included automated tests depend on this markup to run. All markup needed to complete this assignment is already included. There is also no need to write any CSS to complete this assignment; all required CSS for the assignment is already included.</p>
+  <p>The following code is provided in the included <span class="mono">index.js</span> file:</p>
+  <pre><code class="language-js">const getPoemBtn = document.getElementById('get-poem')
+const poemEl = document.getElementById('poem')
+const poemURL = 'https://poetrydb.org/random,linecount/1;12/author,title,lines.json'
+
+const getJSON = url => fetch(url).then(res => res.json())
+
+const pipe = (...fns) => firstArg => fns.reduce((returnValue, fn) => fn(returnValue), firstArg)
+
+const makeTag = tag => str => `&lt;${tag}>${str}&lt;/${tag}>`
+
+// complete this function
+const makePoemHTML = () => {}
+
+// attach a click event to #get-poem
+getPoemBtn.onclick = async function() {
+  // renders the HTML string returned by makePoemHTML to #poem
+  poemEl.innerHTML = makePoemHTML(await getJSON(poemURL))
+}
+</code></pre>
+  <p>The <span class="mono">makePoemHTML</span> function is the only piece of the above code that needs to be completed for the app to be fully functional. <span class="mono">makePoemHTML</span> will accept <a href="#sample-response">PoetryDB API's response</a> and should output a single string of html. This string should consist of an <span class="mono">h2</span> element containing the title of the poem, an <span class="mono">em</span> element containing <span class="mono">"by "</span> and the author's name that is itself inside of an <span class="mono">h3</span>element, and then paragraph elements for each <a href="https://en.wikipedia.org/wiki/Stanza">stanza</a> of the poem that contain lines separated by linebreak tags. An example of the outputted HTML can be seen <a href="#poem-as-html">here</a> inside the <span class="mono">div#poem</span> element. <u>Note that the last line in each paragraph tag does NOT contain a linebreak element after it.</u></p>
+
+  <p>To assist in completing the <span class="mono">makePoemHTML</span> function, helper functions have been included in the starter code.</p>
+
+  <p id="makeTag">The first helper function is <span class="mono">makeTag</span>. This function is curried to take the tag name as an argument, and then return a function that takes its argument and nests it with the tag. This function can be used in various ways to create html elements for <span class="mono">makePoemHTML</span>. Here are some usage examples of <span class="mono">makeTag</span>:</p>
+  <pre><code class="language-js">
+// making a partial that can be reused:
+const makeSpan = makeTag('span')
+makeSpan('hello') // outputs "&lt;span>hello&lt;/span>"
+makeSpan('banana') // outputs "&lt;span>banana&lt;/span>"
+
+// creating a tag and nesting text at the same time:
+makeTag('h1')('hello world') // outputs "&lt;h1>hello world&lt;/h1>"
+  </code></pre>
+
+  <p id="pipe">The other helpful included function is <span class="mono">pipe</span>. Pipe is a standard feature of many functional programming libraries that allows the programmer to chain function calls together while passing the output from one function into the input of another. Here are some examples of pipe:</p>
+  <pre><code class="language-js">const add = a => b => a + b
+const multiply = a => b => a * b
+const double = multiply(2)
+
+const addFiveAndDouble = pipe(add(5), double)
+addFiveAndDouble(10) // (10 + 5) * 2 => 30
+
+pipe(add(2), multiply(3), add(6))(3) // (3 + 2) * 3 + 6 => 21
+
+const makeP = makeTag('p')
+const makeU = makeTag('u')
+const louden = str => str + '!!!'
+
+const makeImportantEl = pipe(louden, makeU, makeP)
+makeImportantEl('this is important') // &lt;p>&lt;u>this is important!!!&lt;/u>&lt;/p>
+
+</code></pre>
+  <p>You must make use of both <a href="#makeTag"><span class="mono">makeTag</span></a> and <a href="#pipe"><span class="mono">pipe</span></a> at least once in your solution to receive full credit.</p>
+
+  <p>You may also make as many additional helper functions as you wish within your code.</p>
+
+  <p>As an final hint, although there are multiple solutions for any coding problem, the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split"><span class="mono">split</span></a>, <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/join"><span class="mono">join</span></a>, and <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map"><span class="mono">map</span></a> functions can make short work of separating the poem into stanzas and inserting linebreaks between the lines inside of stanzas. Pay extra attention to how the <a href="#sample-response">lines</a> property includes <span class="mono">""</span> to separate stanzas and <a href="#poem-as-html">how that should look as HTML</a> in the final app.</p>
+  <h3 id="app-behavior">Application Behavior</h3>
+  <p>When the page loads, the app should only show the "Get Poem" button as seen in <a href="#fig-1">figure 1</a>:</p>
+  <div class="app-example">
+    <span class="tag" id="fig-1">Figure 1: On page load</span>
+    <div></div>
+    <button>Get Poem</button>
+  </div>
+
+  <p>After clicking the "Get Poem" button, the application should make a call to <a href="https://poetrydb.org/random,linecount/1;12/author,title,lines.json" target="__BLANK" referrerpolicy="no-referrer">the exact URL below to</a> retrieve data from the PoetryAB API. The URL is coded to retrieve JSON data for a random poem that is twelve lines in length.</p>
+  <pre><code class="language-markdown">https://poetrydb.org/random,linecount/1;12/author,title,lines.json</code></pre>
+  <p id="sample-response">Here's a sample API response:</p>
+  <pre><code class="language-json">[
+  {
+    "title": "Did Our Best Moment last",
+    "author": "Emily Dickinson",
+    "lines": [
+      "Did Our Best Moment last --",
+      "'Twould supersede the Heaven --",
+      "A few -- and they by Risk -- procure --",
+      "So this Sort -- are not given --",
+      "",
+      "Except as  stimulants -- in",
+      "Cases of Despair --",
+      "Or Stupor -- The Reserve --",
+      "These Heavenly Moments are --",
+      "",
+      "A Grant of the Divine --",
+      "That Certain as it Comes --",
+      "Withdraws -- and leaves the dazzled Soul",
+      "In her unfurnished Rooms"
+    ]
+  }
+]</code></pre>
+  <p>The app should then take this response and render it inside of the <a href="#starting-markup"><span class="mono">#poem</span> element</a>. <a href="#fig-2">Figure 2</a> is an example of the app after successfully retrieving and rendering the above poem data with the resulting markup shown beneath.</p>
+
+  <div class="app-example">
+    <span class="tag" id="fig-2">Figure 2: After clicking "Get Poem"</span>
+    <div id="poem"><h2>Did Our Best Moment last</h2><h3><em>by Emily Dickinson</em></h3><p>Did Our Best Moment last --<br>'Twould supersede the Heaven --<br>A few -- and they by Risk -- procure --<br>So this Sort -- are not given --</p><p>Except as  stimulants -- in<br>Cases of Despair --<br>Or Stupor -- The Reserve --<br>These Heavenly Moments are --</p><p>A Grant of the Divine --<br>That Certain as it Comes --<br>Withdraws -- and leaves the dazzled Soul<br>In her unfurnished Rooms</p></div>
+    <button>Get Poem</button>
+  </div>
+  <pre><code class="language-markup" id="poem-as-html">&lt;div id="poem">
+  &lt;h2>Did Our Best Moment last&lt;/h2>
+  &lt;h3>&lt;em>by Emily Dickinson&lt;/em>&lt;/h3>
+  &lt;p>
+    Did Our Best Moment last --&lt;br>
+    'Twould supersede the Heaven --&lt;br>
+    A few -- and they by Risk -- procure --&lt;br>
+    So this Sort -- are not given --
+  &lt;/p>
+  &lt;p>
+    Except as  stimulants -- in&lt;br>
+    Cases of Despair --&lt;br>
+    Or Stupor -- The Reserve --&lt;br>
+    These Heavenly Moments are --
+  &lt;/p>
+  &lt;p>
+    A Grant of the Divine --&lt;br>
+    That Certain as it Comes --&lt;br>
+    Withdraws -- and leaves the dazzled Soul
+    &lt;br>In her unfurnished Rooms
+  &lt;/p>
+&lt;/div>
+&lt;button id="get-poem">Get Poem&lt;/button>
+  </code></pre>
+
+  <p>Subsequent clicks of the "Get Poem" button should clear the markup in the <span class="mono">#poem</span> element before rendering new poem markup.</p>
+
+  <h2>Tests</h2>
+  <p>Automated tests are included with this assignment. Click the "run tests" button in the bottom right of the screen to run the test suite. To close the tests, click "close tests". To receive full credit, all automated tests must pass.</p>
+
+  <h2>Requirements for full credit</h2>
+  <p>
+    To receive full credit for this assignment, your program MUST:
+  <ul>
+    <li>Operate in the same manner as described above in the <a href="#app-behavior">application behavior</a> section.</li>
+    <li>Make use of both <a href="#makeTag"><span class="mono">makeTag</span></a> and <a href="#pipe"><span class="mono">pipe</span></a> at least once.</li>
+    <li>Pass all automated tests.</li>
+    <li>Be deployed to GitHub Pages.</li>
+  </ul>
+  </p>
+  <h2>Submission</h2>
+  <p>
+    When submitting this assignment, please include <u>BOTH</u>:
+  <ol>
+    <li>A link to the assignment's GitHub repository.</li>
+    <li>A link to the assignment's deployed, live site on GitHub Pages.</li>
+  </ol>
+  </p>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.27.0/prism.min.js"
+    integrity="sha512-/Swpp6aCQ0smuZ+zpklJqMClcUlvxhpLf9aAcM7JjJrj2waCU4dikm3biOtMVAflOOeniW9qzaNXNrbOAOWFCw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="index.js"></script>
+  <script src="tests.js"></script>
+</body>
+
+</html>
